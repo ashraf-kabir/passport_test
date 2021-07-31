@@ -105,10 +105,6 @@ class MainController extends Controller
     $user->password = bcrypt($request->password);
     $user->save();
 
-    // $user = User::create($validatedData);
-
-    // $accessToken = $user->createToken('authToken')->accessToken;
-
     if ($user)
     {
       $success['token'] = $user->createToken('MyApp', ['admin'])->accessToken;
@@ -145,30 +141,18 @@ class MainController extends Controller
     }
   }
 
-  public function userLogout()
+  public function userLogout(Request $request)
   {
-    if (Auth::check())
-    {
-      Auth::user()->token()->revoke();
-      return response()->json(['success' => 'logout_success'], 200);
-    }
-    else
-    {
-      return response()->json(['error' => 'something went wrong'], 500);
-    }
+    $token = $request->user()->token();
+    $token->revoke();
+    return response()->json(['success' => 'logout success'], 200);
   }
 
-  public function adminLogout()
+  public function adminLogout(Request $request)
   {
-    if (Auth::check())
-    {
-      Auth::user()->token()->revoke();
-      return response()->json(['success' => 'logout_success'], 200);
-    }
-    else
-    {
-      return response()->json(['error' => 'something went wrong'], 500);
-    }
+    $token = $request->user()->token();
+    $token->revoke();
+    return response()->json(['success' => 'logout success'], 200);
   }
 
 }

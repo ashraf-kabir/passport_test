@@ -15,9 +15,9 @@ use Illuminate\Support\Facades\Route;
  */
 Route::post('admin/register', [MainController::class, 'adminRegister'])->name('adminRegister');
 Route::post('admin/login', [MainController::class, 'adminLogin'])->name('adminLogin');
-Route::post('admin/logout', [MainController::class, 'adminLogout'])->name('adminLogout');
 Route::group(['prefix' => 'admin', 'middleware' => ['auth:admin-api', 'scopes:admin']], function ()
 {
   // authenticated staff routes here
   Route::get('dashboard', [MainController::class, 'adminDashboard']);
+  Route::post('logout', [MainController::class, 'adminLogout']);
 });
