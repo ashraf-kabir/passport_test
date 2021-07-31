@@ -1,6 +1,7 @@
 <?php
 
-use App\Http\Controllers\UserAuthApiController;
+use App\Http\Controllers\Auth\UserAuthApiController;
+use App\Http\Controllers\User\UserBlogApiController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -19,5 +20,8 @@ Route::group(['prefix' => 'user', 'middleware' => ['auth:user-api', 'scopes:user
 {
   // authenticated staff routes here
   Route::get('dashboard', [UserAuthApiController::class, 'dashboard']);
+  Route::get('blogs', [UserBlogApiController::class, 'index']);
+  Route::post('blogs/add', [UserBlogApiController::class, 'store']);
+  Route::get('blogs/delete/{id}', [UserBlogApiController::class, 'destroy']);
   Route::post('logout', [UserAuthApiController::class, 'logout']);
 });

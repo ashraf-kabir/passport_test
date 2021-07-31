@@ -1,19 +1,20 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Auth;
 
-use App\Models\User;
+use App\Models\Admin;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
-class UserAuthApiController extends Controller
+class AdminAuthApiController extends Controller
 {
   public function register(Request $request)
   {
     $validator = Validator::make($request->all(), [
       'name'     => 'required|max:255',
-      'email'    => 'required|email|max:255|unique:users',
+      'email'    => 'required|email|max:255|unique:admins',
       'password' => 'required|min:6|confirmed'
     ]);
 
@@ -22,7 +23,7 @@ class UserAuthApiController extends Controller
       return response()->json(['error' => $validator->errors()->all()]);
     }
 
-    $user           = new User();
+    $user           = new Admin();
     $user->name     = $request->name;
     $user->email    = $request->email;
     $user->password = bcrypt($request->password);
@@ -30,7 +31,7 @@ class UserAuthApiController extends Controller
 
     if ($user)
     {
-      $success['token'] = $user->createToken('MyApp', ['user'])->accessToken;
+      $success['token'] = $user->createToken('MyApp', ['admin'])->accessToken;
       $success['user']  = $user;
       return response()->json($success, 200);
     }
@@ -48,14 +49,14 @@ class UserAuthApiController extends Controller
       return response()->json(['error' => $validator->errors()->all()]);
     }
 
-    if (auth()->guard('user')->attempt(['email' => request('email'), 'password' => request('password')]))
+    if (auth()->guard('admin')->attempt(['email' => request('email'), 'password' => request('password')]))
     {
-      config(['auth.guards.api.provider' => 'user']);
+      config(['auth.guards.api.provider' => 'admin']);
 
-      $user               = User::select('users.*')->find(auth()->guard('user')->user()->id);
-      $success            = $user;
+      $admin              = Admin::select('admins.*')->find(auth()->guard('admin')->user()->id);
+      $success            = $admin;
       $success['success'] = 'Login successful';
-      $success['token']   = $user->createToken('MyApp', ['user'])->accessToken;
+      $success['token']   = $admin->createToken('MyApp', ['admin'])->accessToken;
 
       return response()->json($success, 200);
     }
@@ -69,12 +70,12 @@ class UserAuthApiController extends Controller
   {
     $token = $request->user()->token();
     $token->revoke();
-    return response()->json(['success' => 'Logout successful'], 200);
+    return response()->json(['success' => 'logout success'], 200);
   }
 
   public function dashboard()
   {
-    $users   = User::all();
+    $users   = Admin::all();
     $success = $users;
     return response()->json($success, 200);
   }
