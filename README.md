@@ -81,8 +81,9 @@ on logout token revoked
 
     params:
 
-    ``email
-    password``
+    ``email``
+    <br>
+    ``password``
 
     copy token and add on Bearer when necessary
 
@@ -116,11 +117,15 @@ on logout token revoked
 
     params:
 
-    ``title
-    description
-    status
-    category_id
-    tag_id``
+    ``title``
+    <br>
+    ``description``
+    <br>
+    ``status``
+    <br>
+    ``category_id``
+    <br>
+    ``tag_id``
 
     (title & description is string & text respectively. status, category_id, tag_id are all integer. status can be 1, 0 meant for active, inactive. All params are mandatory here)
 
@@ -175,10 +180,13 @@ on logout token revoked
 
     params:
 
-    ``name
-    email
-    password
-    password_confirmation``
+    ``name``
+    <br>
+    ``email``
+    <br>
+    ``password``
+    <br>
+    ``password_confirmation``
 
     <br>
 
@@ -190,8 +198,9 @@ on logout token revoked
 
     params:
     
-    ``email
-    password``
+    ``email``
+    <br>
+    ``password``
 
     copy token and add on Bearer when necessary
 
@@ -207,7 +216,17 @@ on logout token revoked
 
     <br>
 
-12. admin->categories->list
+12. admin->blogs->list
+
+    method: GET
+
+    ``http://localhost:8000/api/admin/blogs``
+
+    on header pass Bearer token
+
+    <br>
+
+13. admin->categories->list
 
     method: GET
 
@@ -217,7 +236,7 @@ on logout token revoked
 
     <br>
 
-13. admin->categories->add
+14. admin->categories->add
 
     method: POST
 
@@ -225,8 +244,9 @@ on logout token revoked
 
     params:
 
-    ``name
-    status``
+    ``name``
+    <br>
+    ``status``
 
     name->string, status->integer(1, 0)->(active, inactive)
 
@@ -234,7 +254,7 @@ on logout token revoked
 
     <br>
 
-14. admin->categories->delete
+15. admin->categories->delete
 
     method: GET
 
@@ -246,7 +266,7 @@ on logout token revoked
 
     <br>
 
-15. admin->tags->list
+16. admin->tags->list
 
     method: GET
 
@@ -256,7 +276,7 @@ on logout token revoked
 
     <br>
 
-16. admin->tags->add
+17. admin->tags->add
 
     method: POST
 
@@ -264,8 +284,9 @@ on logout token revoked
 
     params:
 
-    ``name
-    status``
+    ``name``
+    <br>
+    ``status``
 
     name->string, status->integer(1, 0)->(active, inactive)
 
@@ -273,7 +294,7 @@ on logout token revoked
 
     <br>
 
-17. admin->tags->delete
+18. admin->tags->delete
 
     method: GET
 
@@ -285,7 +306,7 @@ on logout token revoked
 
     <br>
 
-18. admin->dashboard (to view customers list)
+19. admin->dashboard (to view customers list)
 
     method: GET
 
