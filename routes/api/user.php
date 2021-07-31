@@ -19,7 +19,7 @@ Route::post('user/login', [UserAuthApiController::class, 'login']);
 Route::group(['prefix' => 'user', 'middleware' => ['auth:user-api', 'scopes:user']], function ()
 {
   // authenticated staff routes here
-  Route::get('dashboard', [UserAuthApiController::class, 'dashboard']);
+  Route::get('profile', [UserAuthApiController::class, 'profile']);
   Route::get('blogs/search', [UserBlogApiController::class, 'search']);
   Route::get('blogs', [UserBlogApiController::class, 'index']);
   Route::post('blogs/add', [UserBlogApiController::class, 'store']);

@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
 class UserAuthApiController extends Controller
@@ -73,10 +74,16 @@ class UserAuthApiController extends Controller
     return response()->json(['success' => 'Logout successful'], 200);
   }
 
-  public function dashboard()
+  public function profile(Request $request)
   {
-    $users   = User::all();
-    $success = $users;
-    return response()->json($success, 200);
+    $user_id      = $request->user()->id;
+    $user_details = DB::table('users')->where('id', $user_id)->get();
+
+    $response     = [
+      'message'      => 'success!',
+      'user_details' => $user_details
+    ];
+    // $success = $user_details;
+    return response()->json($response, 200);
   }
 }

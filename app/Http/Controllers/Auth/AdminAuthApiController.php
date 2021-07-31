@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Models\Admin;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Admin;
+use App\Models\User;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
@@ -75,8 +76,22 @@ class AdminAuthApiController extends Controller
 
   public function dashboard()
   {
-    $users   = Admin::all();
-    $success = $users;
-    return response()->json($success, 200);
+    $users = User::all();
+
+    if (count($users) > 0)
+    {
+      $response = [
+        'message' => 'success',
+        'users'   => $users
+      ];
+      return response()->json($response, 200);
+    }
+    else
+    {
+      $response = [
+        'message' => 'error! no users found'
+      ];
+      return response()->json($response, 404);
+    }
   }
 }

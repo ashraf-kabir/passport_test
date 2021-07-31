@@ -1,3 +1,0 @@
-create personal access tokens after migration by installing passport
-
-php artisan passport:install
