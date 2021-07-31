@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\MainController;
+use App\Http\Controllers\UserAuthApiController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,11 +13,11 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
  */
-Route::post('user/register', [MainController::class, 'userRegister'])->name('userRegister');
-Route::post('user/login', [MainController::class, 'userLogin'])->name('userLogin');
+Route::post('user/register', [UserAuthApiController::class, 'register']);
+Route::post('user/login', [UserAuthApiController::class, 'login']);
 Route::group(['prefix' => 'user', 'middleware' => ['auth:user-api', 'scopes:user']], function ()
 {
   // authenticated staff routes here
-  Route::get('dashboard', [MainController::class, 'userDashboard']);
-  Route::post('logout', [MainController::class, 'userLogout']);
+  Route::get('dashboard', [UserAuthApiController::class, 'dashboard']);
+  Route::post('logout', [UserAuthApiController::class, 'logout']);
 });

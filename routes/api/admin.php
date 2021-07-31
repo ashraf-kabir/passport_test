@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\MainController;
+use App\Http\Controllers\AdminAuthApiController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,11 +13,11 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
  */
-Route::post('admin/register', [MainController::class, 'adminRegister'])->name('adminRegister');
-Route::post('admin/login', [MainController::class, 'adminLogin'])->name('adminLogin');
+Route::post('admin/register', [AdminAuthApiController::class, 'register']);
+Route::post('admin/login', [AdminAuthApiController::class, 'login']);
 Route::group(['prefix' => 'admin', 'middleware' => ['auth:admin-api', 'scopes:admin']], function ()
 {
   // authenticated staff routes here
-  Route::get('dashboard', [MainController::class, 'adminDashboard']);
-  Route::post('logout', [MainController::class, 'adminLogout']);
+  Route::get('dashboard', [AdminAuthApiController::class, 'dashboard']);
+  Route::post('logout', [AdminAuthApiController::class, 'logout']);
 });
