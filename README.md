@@ -2,17 +2,14 @@
 
 # commands
 
+```
 git clone https://github.com/ashraf-kabir/passport_test
-
 cd passport_test
-
 composer require laravel/passport
-
 php artisan migrate
-
 php artisan passport:install
-
 php artisan serve
+```
 
 <br>
 
@@ -66,10 +63,13 @@ on logout token revoked
 
     params:
 
-    ``name
-    email
-    password
-    password_confirmation``
+    ``name``
+    <br>
+    ``email``
+    <br>
+    ``password``
+    <br>
+    ``password_confirmation``
 
     <br>
 
