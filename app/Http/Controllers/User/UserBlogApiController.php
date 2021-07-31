@@ -173,4 +173,48 @@ class UserBlogApiController extends Controller
       return response()->json($response, 404);
     }
   }
+
+  public function search(Request $request)
+  {
+    $params = $request->all();
+
+    $validator = Validator::make($params, [
+      'search_term' => 'required|min:3'
+    ]);
+
+    if ($validator->fails())
+    {
+      return response()->json(['error' => $validator->errors()], 400);
+    }
+
+    // dd($params);
+    // $user_id = $request->user()->id;
+
+    $blogs = DB::table('blogs')
+      ->join('categories', 'categories.id', '=', 'blogs.category_id')
+      ->join('tags', 'tags.id', '=', 'blogs.tag_id')
+      ->join('users', 'users.id', '=', 'blogs.user_id')
+      ->where('blogs.title', 'LIKE', '%' . $params['search_term'] . '%')
+      ->orWhere('categories.name', 'LIKE', '%' . $params['search_term'] . '%')
+      ->orWhere('tags.name', 'LIKE', '%' . $params['search_term'] . '%')
+      ->where('blogs.status', '1')
+      ->select('blogs.*', 'categories.name as category_name', 'tags.name as tag_name', 'users.name as user_name')
+      ->get();
+
+    if (count($blogs) > 0)
+    {
+      $response = [
+        'message' => 'success!',
+        'data'    => $blogs
+      ];
+      return response()->json($response, 200);
+    }
+    else
+    {
+      $response = [
+        'message' => 'error! no data found'
+      ];
+      return response()->json($response, 404);
+    }
+  }
 }
