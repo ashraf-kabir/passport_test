@@ -23,7 +23,7 @@ class AdminBlogApiController extends Controller
     if (count($blogs) > 0)
     {
       $response = [
-        'message' => 'success!',
+        'success' => TRUE,
         'data'    => $blogs
       ];
       return response()->json($response, 200);
@@ -31,7 +31,8 @@ class AdminBlogApiController extends Controller
     else
     {
       $response = [
-        'message' => 'error! no data found'
+        'error'   => TRUE,
+        'message' => 'no data found'
       ];
       return response()->json($response, 404);
     }

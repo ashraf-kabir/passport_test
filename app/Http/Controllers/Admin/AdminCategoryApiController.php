@@ -25,7 +25,7 @@ class AdminCategoryApiController extends Controller
     if (count($categories) > 0)
     {
       $response = [
-        'message' => 'success!',
+        'success' => TRUE,
         'data'    => $categories
       ];
       return response()->json($response, 200);
@@ -33,7 +33,8 @@ class AdminCategoryApiController extends Controller
     else
     {
       $response = [
-        'message' => 'No data found!'
+        'error'   => TRUE,
+        'message' => 'no data found'
       ];
       return response()->json($response, 404);
     }
@@ -66,24 +67,29 @@ class AdminCategoryApiController extends Controller
 
     if ($validator->fails())
     {
-      return response()->json(['error' => $validator->errors(), 'Validation Error']);
+      $response = [
+        'error' => TRUE,
+        'message' => $validator->errors()->all()
+      ];
+      return response()->json($response, 400);
     }
 
-    $blog = Category::create($data);
+    $category = Category::create($data);
 
-    if ($blog)
+    if ($category)
     {
       $response = [
-        'message' => 'success! category added successfully',
-        'data'    => $blog
+        'success' => TRUE,
+        'message' => 'category added successfully',
+        'data'    => $category
       ];
       return response()->json($response, 200);
     }
     else
     {
       $response = [
-        'message' => 'error! try again',
-        'data'    => $blog
+        'error'   => TRUE,
+        'message' => 'try again'
       ];
       return response()->json($response, 400);
     }
@@ -140,7 +146,8 @@ class AdminCategoryApiController extends Controller
       if (count($blogs) > 0)
       {
         $response = [
-          'message' => 'error! this category is being used on blogs'
+          'error'   => TRUE,
+          'message' => 'this category is being used on blogs'
         ];
         return response()->json($response, 400);
       }
@@ -148,7 +155,8 @@ class AdminCategoryApiController extends Controller
       {
         $category->delete();
         $response = [
-          'message' => 'success! category deleted successfully'
+          'success' => TRUE,
+          'message' => 'category deleted successfully'
         ];
         return response()->json($response, 200);
       }
@@ -156,7 +164,8 @@ class AdminCategoryApiController extends Controller
     else
     {
       $response = [
-        'message' => 'error! category doesn\'t exist'
+        'error'   => TRUE,
+        'message' => 'category doesn\'t exist'
       ];
       return response()->json($response, 404);
     }

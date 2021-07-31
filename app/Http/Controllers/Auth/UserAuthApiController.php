@@ -21,7 +21,11 @@ class UserAuthApiController extends Controller
 
     if ($validator->fails())
     {
-      return response()->json(['error' => $validator->errors()->all()]);
+      $response = [
+        'error' => TRUE,
+        'message' => $validator->errors()->all()
+      ];
+      return response()->json($response, 400);
     }
 
     $user           = new User();
@@ -71,7 +75,7 @@ class UserAuthApiController extends Controller
   {
     $token = $request->user()->token();
     $token->revoke();
-    return response()->json(['success' => 'Logout successful'], 200);
+    return response()->json(['success' => TRUE, 'message' => 'logout successful'], 200);
   }
 
   public function profile(Request $request)

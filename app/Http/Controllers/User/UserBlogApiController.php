@@ -28,7 +28,7 @@ class UserBlogApiController extends Controller
     if (count($blogs) > 0)
     {
       $response = [
-        'message' => 'success!',
+        'success' => TRUE,
         'data'    => $blogs
       ];
       return response()->json($response, 200);
@@ -36,7 +36,8 @@ class UserBlogApiController extends Controller
     else
     {
       $response = [
-        'message' => 'error! no data found',
+        'error'   => TRUE,
+        'message' => 'no data found',
         'user_id' => $user_id
       ];
       return response()->json($response, 404);
@@ -73,7 +74,11 @@ class UserBlogApiController extends Controller
 
     if ($validator->fails())
     {
-      return response()->json(['error' => $validator->errors(), 'Validation Error']);
+      $response = [
+        'error' => TRUE,
+        'message' => $validator->errors()->all()
+      ];
+      return response()->json($response, 400);
     }
 
     $user_id         = $request->user()->id;
@@ -84,7 +89,8 @@ class UserBlogApiController extends Controller
     if ($blog)
     {
       $response = [
-        'message' => 'success! blog added successfully',
+        'success' => TRUE,
+        'message' => 'blog added successfully',
         'data'    => $blog
       ];
       return response()->json($response, 200);
@@ -92,8 +98,8 @@ class UserBlogApiController extends Controller
     else
     {
       $response = [
-        'message' => 'error! try again',
-        'data'    => $blog
+        'error'   => TRUE,
+        'message' => 'try again'
       ];
       return response()->json($response, 400);
     }
@@ -153,14 +159,16 @@ class UserBlogApiController extends Controller
       {
         $blog->delete();
         $response = [
-          'message' => 'success! blog deleted successfully'
+          'success' => TRUE,
+          'message' => 'blog deleted successfully'
         ];
         return response()->json($response, 200);
       }
       else
       {
         $response = [
-          'message' => 'error! this blog doesn\'t belong to you'
+          'error'   => TRUE,
+          'message' => 'this blog doesn\'t belong to you'
         ];
         return response()->json($response, 400);
       }
@@ -204,6 +212,7 @@ class UserBlogApiController extends Controller
     if (count($blogs) > 0)
     {
       $response = [
+        'success' => TRUE,
         'message' => 'success!',
         'data'    => $blogs
       ];
@@ -212,6 +221,7 @@ class UserBlogApiController extends Controller
     else
     {
       $response = [
+        'error'   => TRUE,
         'message' => 'error! no data found'
       ];
       return response()->json($response, 404);

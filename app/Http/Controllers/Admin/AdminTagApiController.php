@@ -25,7 +25,7 @@ class AdminTagApiController extends Controller
     if (count($tags) > 0)
     {
       $response = [
-        'message' => 'success!',
+        'success' => TRUE,
         'data'    => $tags
       ];
       return response()->json($response, 200);
@@ -33,7 +33,8 @@ class AdminTagApiController extends Controller
     else
     {
       $response = [
-        'message' => 'error! no data found'
+        'error'   => TRUE,
+        'message' => 'no data found'
       ];
       return response()->json($response, 404);
     }
@@ -66,24 +67,29 @@ class AdminTagApiController extends Controller
 
     if ($validator->fails())
     {
-      return response()->json(['error' => $validator->errors(), 'Validation Error']);
+      $response = [
+        'error' => TRUE,
+        'message' => $validator->errors()->all()
+      ];
+      return response()->json($response, 400);
     }
 
-    $blog = Tag::create($data);
+    $tag = Tag::create($data);
 
-    if ($blog)
+    if ($tag)
     {
       $response = [
-        'message' => 'success! tag added successfully',
-        'data'    => $blog
+        'success' => TRUE,
+        'message' => 'tag added successfully',
+        'data'    => $tag
       ];
       return response()->json($response, 200);
     }
     else
     {
       $response = [
-        'message' => 'error! try again',
-        'data'    => $blog
+        'error'   => TRUE,
+        'message' => 'try again'
       ];
       return response()->json($response, 400);
     }
@@ -140,7 +146,8 @@ class AdminTagApiController extends Controller
       if (count($blogs) > 0)
       {
         $response = [
-          'message' => 'error! this tag is being used on blogs'
+          'error'   => TRUE,
+          'message' => 'this tag is being used on blogs'
         ];
         return response()->json($response, 400);
       }
@@ -148,7 +155,8 @@ class AdminTagApiController extends Controller
       {
         $tag->delete();
         $response = [
-          'message' => 'success! tag deleted successfully'
+          'success' => TRUE,
+          'message' => 'tag deleted successfully'
         ];
         return response()->json($response, 200);
       }
@@ -156,7 +164,8 @@ class AdminTagApiController extends Controller
     else
     {
       $response = [
-        'message' => 'error! tag doesn\'t exist'
+        'error'   => TRUE,
+        'message' => 'tag doesn\'t exist'
       ];
       return response()->json($response, 404);
     }

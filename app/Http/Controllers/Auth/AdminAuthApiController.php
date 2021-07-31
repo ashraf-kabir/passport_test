@@ -21,7 +21,11 @@ class AdminAuthApiController extends Controller
 
     if ($validator->fails())
     {
-      return response()->json(['error' => $validator->errors()->all()]);
+      $response = [
+        'error' => TRUE,
+        'message' => $validator->errors()->all()
+      ];
+      return response()->json($response, 400);
     }
 
     $user           = new Admin();
@@ -71,7 +75,7 @@ class AdminAuthApiController extends Controller
   {
     $token = $request->user()->token();
     $token->revoke();
-    return response()->json(['success' => 'logout success'], 200);
+    return response()->json(['success' => TRUE, 'message' => 'logout successful'], 200);
   }
 
   public function dashboard()
@@ -81,6 +85,7 @@ class AdminAuthApiController extends Controller
     if (count($users) > 0)
     {
       $response = [
+        'success' => TRUE,
         'message' => 'success',
         'users'   => $users
       ];
@@ -89,7 +94,8 @@ class AdminAuthApiController extends Controller
     else
     {
       $response = [
-        'message' => 'error! no users found'
+        'error'   => TRUE,
+        'message' => 'no users found'
       ];
       return response()->json($response, 404);
     }
